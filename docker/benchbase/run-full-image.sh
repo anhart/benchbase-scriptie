@@ -16,7 +16,7 @@ if ! docker image ls --quiet benchbase-$BENCHBASE_PROFILE:latest | grep -q .; th
 fi
 
 #if [ "$CLEAN_BUILD" != 'false' ]; then
-    ./build-full-image.sh
+#    ./build-full-image.sh
 #fi
 
 if [ "$imagename" != 'benchbase' ]; then
@@ -36,5 +36,6 @@ docker run -it --rm \
     --env=http_proxy="${http_proxy:-}" --env=https_proxy="${https_proxy:-}" --env=no_proxy="${no_proxy:-}" \
     --env BENCHBASE_PROFILE="$BENCHBASE_PROFILE" \
     --user "$CONTAINERUSER_UID:$CONTAINERUSER_GID" \
+    --net=host \
     -v "$SRC_DIR/results:/benchbase/results" benchbase-$BENCHBASE_PROFILE:latest $*
 set +x
